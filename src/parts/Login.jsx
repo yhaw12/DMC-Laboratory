@@ -34,10 +34,10 @@ function Login() {
         SetError('')
 
         axios.defaults.withCredentials = true;
-    axios.post('http://localhost:8081/login', values)
+        axios.post('http://localhost:8081/login', values)
         .then(res => {
             if (res.data.Status === 'Success'){
-                navigate('/signup')
+                navigate('/')
             }else{
                 return SetError(res.data.Error)
             }
