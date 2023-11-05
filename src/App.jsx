@@ -1,6 +1,3 @@
-import { useState } from 'react'
-
-
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import Login from './parts/login';
 import Signup from './parts/Signup';
