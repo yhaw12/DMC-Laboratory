@@ -2,11 +2,11 @@ import React from 'react'
 
 function Navbar() {
   return (
-    <section className=' h-24 pt-8 flex flex-auto items-center justify-between bg-blue-gray-600 shadow outline'>
+    <section className='w-auto h-24 pt-8 flex flex-auto items-center justify-between bg-blue-gray-600 shadow outline'>
         <div><h1>Page Name</h1></div>
         <div className='h-auto flex items-center justify-between px-10 '>
           <div>Profile Name</div>
-          <svg className="w-2.5 h-2.5 ml-2.5 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+          <svg  id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="w-2.5 h-2.5 ml-2.5 cursor-pointer" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m1 1 4 4 4-4" />
            </svg>
         </div>
