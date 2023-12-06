@@ -24,16 +24,16 @@ function Sidebar() {
   return (
     <section className="flex gap-4">
       <div
-            className={`bg-[#0e0e0e] min-h-screen ${open ? "w-80" : "w-16"} duration-500 text-gray-100 px-4`}>
+            className={`bg-primary min-h-screen ${open ? "w-60" : "w-16"} duration-500 text-gray-100 px-4`}>
             <div className="py-3 flex justify-end">
             <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)}/>
             </div>
 
-            <div className="w-full h-auto flex items-center m-auto"><img className="cursor-pointer w-36" src={dgiLogo} /></div>
+            <div className="w-full h-auto flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
 
             <div className="mt-4 flex flex-col gap-4 relative">
             {menus?.map((menu, i) => (
-                <Link to={menu?.link} key={i} className={` ${menu?.margin && "mt-5"} group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-gray-800 rounded-md`}>
+                <Link to={menu?.link} key={i} className={` ${menu?.margin && "mt-5"} group flex items-center text-sm font-medium p-2 hover:bg-gray-800 rounded-md`}>
                 <div className="mr-12">{React.createElement(menu?.icon, { size: "20" })}</div>
                 <h2 style={{ transitionDelay: `${i + 3}00ms`, }} className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
                     {menu?.name}

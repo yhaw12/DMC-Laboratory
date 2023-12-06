@@ -82,7 +82,7 @@ function Login() {
                     Login
                     </Button>
                     <Typography color="gray" type="submit" className="mt-4 text-center font-normal">
-                    Don't have an account?{" "}
+                    Dont have an account?{" "}
                     <Link to="/signup" className="font-bold text-red-900">
                         Sign Up
                     </Link>

@@ -1,22 +1,25 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function Auth(children) {
-
-    const userAuth =()=>{
+function Auth({ children }) {
+    const userAuth = () => {
         const token = localStorage.getItem('token');
-        return !!token
+        return !!token;
     };
-    const navigate = useNavigate();
-  return (
-    
-    useEffect(()=>{
-        if(!userAuth){
-            navigate('/home')
-        }
-        return userAuth ? children: null;
-    },[])
-  )
-}
 
-export default Auth
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!userAuth()) {
+            navigate('/home');
+        }
+    }, [navigate]);
+
+    return userAuth() ? children : null;
+}
+Auth.propTypes = {
+  children: PropTypes.node,
+};
+
+export default Auth;
