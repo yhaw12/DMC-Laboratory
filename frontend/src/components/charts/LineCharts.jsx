@@ -33,7 +33,7 @@ function LineCharts() {
   return (
     <LineChart
           width={500}
-          height={300}
+          height={280}
           data={data}
           margin={{
             top: 5,

@@ -14,10 +14,10 @@ function Sidebar() {
     const menus = [
         { name: "dashboard", link: "dashboard", icon: MdOutlineDashboard },
         { name: "user", link: "/", icon: AiOutlineUser },
-        { name: "Activities", link: "/", icon: FaUsers },
-        { name: "Attendance", link: "/", icon: FaUsers },
-        { name: "Clients", link: "/", icon: FaUserInjured, margin: true },
-        { name: "Test Category", link: "/", icon: FaVials },
+        { name: "Activities", link: "activities", icon: FaUsers },
+        { name: "Attendance", link: "attendance", icon: FaUsers },
+        { name: "Clients", link: "clients", icon: FaUserInjured, margin: true },
+        { name: "Test Category", link: "labtest", icon: FaVials },
         { name: "Inventory Mangement", link: "/", icon: FaBoxes, 
         subMenu: [
           {name: "Inventory Mangement", link: "/",},
@@ -52,7 +52,7 @@ function Sidebar() {
 
           <div className="w-full h-auto flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
 
-          <div className="mt-2 flex flex-col gap-4 relative scr">
+          <div className="mt-2 flex flex-col gap-4 relative overflow-scroll">
          {menus?.map((menu, i) => (
            <div key={i} className={`${menu.margin && "mt-4"} group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md`}>
 

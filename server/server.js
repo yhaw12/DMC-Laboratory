@@ -39,6 +39,9 @@ app.post('/signup', async (req, res)=>{
     // first check the user first exit
     const checkData = 'SELECT * FROM account WHERE email = ?';
     const {email} = req.body;
+
+    const now = Date().now
+    
     db.query(checkData, [email], async(err, results)=>{
         if (results.length > 0){
             return res.json({Status: 'User Already Exist'})

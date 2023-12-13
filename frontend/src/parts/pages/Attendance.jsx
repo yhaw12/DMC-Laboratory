@@ -1,87 +1,75 @@
-import  { useEffect, useState } from 'react';
-import { Table } from '@windicss/react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import DataTable from 'react-data-table-component';
 
-function Attendance() {
-  const [attendances, setAttendances] = useState([]);
+const Attendance = () => {
+    const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/attendances')
-      .then(response => response.json())
-      .then(data => setAttendances(data));
-  }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            const result = await axios.get('https://jsonplaceholder.typicode.com/users');
+            setData(result.data);
+        };
 
-  return (
-    <div
- 
-className="container-fluid">
+        fetchData();
+    }, []);
 
-      
-<div
- 
-className="row">
+    const columns = [
+        {
+            name: 'S/N',
+            selector: row=>row.id,
+            sortable: true,
+        },
+        {
+            name: 'Employees Name',
+            selector: row=>row.name,
+            sortable: true,
+        },
+        {
+            name: 'Enter Date & Time',
+            selector: 'enters_time',
+            sortable: true,
+        },
+        {
+            name: 'Exit Date & Time',
+            selector: 'exits_time',
+            sortable: true,
+        },
+    ];
 
-        
-<div
- 
-className="col-12">
-
-          
-<div
- 
-className="page-title-box">
-
-            
-<h4
- 
-className="page-title">Attendance List</h4>
+    return (
+      <div className="container mx-auto px-4">
+      <div className="flex flex-col">
+          <div className="overflow-x-auto">
+              <div className="align-middle inline-block min-w-full">
+                  <div className="text-center my-6">
+                      <h2 className="text-2xl font-semibold text-gray-700">Attendance List</h2>
+                  </div>
+                  <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                      <DataTable
+                          columns={columns}
+                          data={data}
+                          noHeader
+                          customStyles={{
+                              headCells: {
+                                  style: {
+                                      paddingLeft: '8px',
+                                      'fontWeight': 'bold'
+                                  },
+                              },
+                              cells: {
+                                  style: {
+                                      paddingLeft: '8px',
+                                  },
+                              },
+                          }}
+                      />
+                  </div>
+              </div>
           </div>
-        </div>
       </div>
-
-      <div className="card">
-        <div className="card-body">
-          <h4 className="text-center">All Attendance List</h4>
-
-          <Table striped responsive>
-            <thead>
-
-              
-<tr>
-
-                
-<th>S/N</th>
-
-                
-<th>Employees Name</th>
-                {/* <th>Employees ID</th> */}
-                <th>Enter Date & Time</th>
-
-                
-<th>Exit Date & Time</th>
-                {/* <th>Activity</th> */}
-              </tr>
-
-            
-</thead>
-
-            
-<tbody>
-              {attendances.map((attendance, index) => (
-                <tr key={attendance.id}>
-                  <td>{index + 1}</td>
-                  <td>{attendance.user_name}</td>
-                  {/* <td>{attendance.employeesid}</td> */}
-                  <td>{attendance.enters_time}</td>
-                  <td>{attendance.exits_time}</td>
-                  {/* <td>{attendance.activity}</td> */}
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </div>
-      </div>
-    </div>
-  );
-}
+  </div>
+    );
+};
 
 export default Attendance;

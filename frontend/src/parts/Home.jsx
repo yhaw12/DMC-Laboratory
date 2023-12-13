@@ -7,7 +7,7 @@ function Home() {
 
   const Open = true;
   return (
-    <section  className='w-full h-screen flex justify-between'>
+    <section  className='w-full h-screen flex justify-between overflow-hidden'>
       <Sidebar/>
       <main className={`w-full flex flex-col justify-between top-0 dark:bg-black ${Open ? 'flex-grow h-8 ' : 'flex-shrink'}`}>
         <Navbar/>

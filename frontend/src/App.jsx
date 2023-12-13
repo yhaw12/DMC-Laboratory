@@ -5,6 +5,10 @@ import './App.css'
 import { useEffect } from 'react';
 import Dashboard from './parts/Dashboard';
 import Home from './parts/Home';
+import ActivitiesList from './parts/pages/ActivitiesList';
+import Attendance from './parts/pages/Attendance';
+import CustomerDataTable from './components/datatable/CustomerDataTable';
+import LabTest from './parts/pages/labtest/LabTest';
 
  
 const router = createBrowserRouter(
@@ -12,8 +16,11 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/*" element={<Home />}>
         <Route path="dashboard" element={<Dashboard />} />
-        {/* <Route path="employees" element={<Employees />} />
-        <Route path="clients" element={<Clients />} />
+        <Route path="activities" element={<ActivitiesList />} />
+        <Route path="attendance" element={<Attendance />} />
+        <Route path="clients" element={ <CustomerDataTable/>} />
+        <Route path="labtest" element={ <LabTest/>} />
+        {/* <Route path="clients" element={<Clients />} />
         <Route path="profile" element={<Profile />} />
         <Route path="upt" element={<Upt />} /> */}
       </Route>
