@@ -18,12 +18,12 @@ function Sidebar() {
         { name: "Attendance", link: "attendance", icon: FaUsers },
         { name: "Clients", link: "clients", icon: FaUserInjured, margin: true },
         { name: "Test Category", link: "labtest", icon: FaVials },
-        { name: "Inventory Mangement", link: "/", icon: FaBoxes, 
+        { name: "Inventory Mangement",link: "/", icon: FaBoxes, dropdown: true, 
         subMenu: [
           {name: "Inventory Mangement", link: "/",},
           {name: "Inventory Mangement", link: "/",}
         ] },
-        { name: "Client Billing System", link: "/", icon: FaMoneyBill,
+        { name: "Client Billing System", link: "/", icon: FaMoneyBill, dropdown: true,
         subMenu: [
           {name: "Client Billing", link: "/",},
           {name: "Client Billing", link: "/",}
@@ -40,55 +40,48 @@ function Sidebar() {
 
 
       const handleSubMenuClick = (menuName) => {
-        setOpenSubMenu(menuName);
+        if (menuName === openSubMenu) {
+          setOpenSubMenu("");
+        } else {
+          setOpenSubMenu(menuName);
+        }
       };
       
   return (
-      <section className="flex gap-4">
-         <div className={`bg-primary min-h-screen ${open ? "w-60" : "w-16"} duration-500 text-gray-100 px-4`}>
+      <section className=" flex gap-4 transition-all duration-300">
+         <div className={`bg-primary h-full ${open ? "w-66" : "w-16"} text-gray-100 px-4 duration-300`}>
           <div className="py-3 flex justify-end">
             <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)}/>
           </div>
 
           <div className="w-full h-auto flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
 
-          <div className="mt-2 flex flex-col gap-4 relative overflow-scroll">
-         {menus?.map((menu, i) => (
-           <div key={i} className={`${menu.margin && "mt-4"} group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md`}>
-
-          <Link to={menu.link} className="group flex items-center w-full">
-            <div className="mr-8">{React.createElement(menu.icon, { size: "20" })}</div>
-            <h2 style={{ transitionDelay: `${i + 3}00ms`, }} className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
-              {menu.name}
-            </h2>
-          </Link>
-      
-          {menu.subMenu && (
-            <div onClick={() => handleSubMenuClick(menu.name)}>
-              {openSubMenu === menu.name ? <FaChevronDown /> : <FaChevronRight />}
-            </div>
-          )}
-      
-        {menu.subMenu && openSubMenu === menu.name && (
-          <div className="flex flex-col">
-            {menu.subMenu.map((subMenu, j) => (
-              <Link to={subMenu.link} key={j} className="group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md">
-                <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
-                  {subMenu.name}
+          <div className="mt-8 mb-auto flex flex-col gap-4 relative overflow-auto h-screen outline">
+          {menus?.map((menu, i) => (
+            <div key={i} className={`${menu.margin && "mt-8"}  group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md relative`}>
+              <div onClick={() => handleSubMenuClick(menu.name)} className="group flex items-center w-full h-auto scroll-behavior-smooth mb-auto cursor-pointer">
+                <div className="mr-4">{React.createElement(menu.icon, { size: "20" })}</div>
+                <h2 style={{ transitionDelay: `${i + 3}00ms`, }} className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
+                  {menu.name}
                 </h2>
-              </Link>
-            ))}
-          </div>
-        )}
-      
-      </div>
-      
-      ))}
-     </div>
-
-        
+                {menu.dropdown && (openSubMenu === menu.name ? <FaChevronDown /> : <FaChevronRight />)}
+              </div>
+              {menu.dropdown && openSubMenu === menu.name && (
+                <div className="pl-6">
+                  {menu.subMenu.map((subMenu, j) => (
+                    <Link key={j} to={subMenu.link} className="group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md">
+                      <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
+                        {subMenu.name}
+                      </h2>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
-        </section> 
+          ))}
+        </div>  
+     </div>
+  </section> 
   )
 }
 
