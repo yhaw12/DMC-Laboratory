@@ -57,28 +57,29 @@ function Sidebar() {
           <div className="w-full h-auto flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
 
           <div className="mt-8 mb-auto flex flex-col gap-4 relative overflow-auto h-screen outline">
-          {menus?.map((menu, i) => (
-            <div key={i} className={`${menu.margin && "mt-8"}  group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md relative`}>
-              <div onClick={() => handleSubMenuClick(menu.name)} className="group flex items-center w-full h-auto scroll-behavior-smooth mb-auto cursor-pointer">
-                <div className="mr-4">{React.createElement(menu.icon, { size: "20" })}</div>
-                <h2 style={{ transitionDelay: `${i + 3}00ms`, }} className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
-                  {menu.name}
-                </h2>
-                {menu.dropdown && (openSubMenu === menu.name ? <FaChevronDown /> : <FaChevronRight />)}
-              </div>
-              {menu.dropdown && openSubMenu === menu.name && (
-                <div className="pl-6">
-                  {menu.subMenu.map((subMenu, j) => (
-                    <Link key={j} to={subMenu.link} className="group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md">
-                      <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
-                        {subMenu.name}
-                      </h2>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+          {menus.map((menu, i) => (
+        <div key={i} className="group flex flex-col items-start text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md relative">
+          <div onClick={() => handleSubMenuClick(menu.name)} className="group flex items-center w-full h-auto scroll-behavior-smooth mb-auto cursor-pointer">
+            <div className="mr-4">{React.createElement(menu.icon, { size: "20" })}</div>
+            <h2 style={{ transitionDelay: `${i + 3}00ms`, }} className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
+              {menu.name}
+            </h2>
+            {menu.dropdown && (openSubMenu === menu.name ? <FaChevronDown /> : <FaChevronRight />)}
+          </div>
+          {menu.dropdown && openSubMenu === menu.name && (
+            <div className="pl-6 flex flex-col transition-height duration-700 ease-in-out" style={{ height: openSubMenu === menu.name ? 'auto' : '0' }}>
+              {menu.subMenu.map((subMenu, j) => (
+                <Link key={j} to={subMenu.link} className="group flex items-center text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md">
+                  <h2 className={`whitespace-pre duration-500 ${!open && "opacity-0 translate-x-28 overflow-hidden"}`}>
+                    {subMenu.name}
+                  </h2>
+                </Link>
+              ))}
+      </div>
+    )}
+  </div>
+))}
+
         </div>  
      </div>
   </section> 
@@ -86,3 +87,4 @@ function Sidebar() {
 }
 
 export default Sidebar
+
