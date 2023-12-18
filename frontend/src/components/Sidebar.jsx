@@ -13,7 +13,7 @@ import { FaSnowflake } from "react-icons/fa";
 function Sidebar() {
     const menus = [
         { name: "dashboard", link: "dashboard", icon: MdOutlineDashboard },
-        { name: "user", link: "/", icon: AiOutlineUser },
+        { name: "user", link: "/user", icon: AiOutlineUser },
         { name: "Activities", link: "activities", icon: FaUsers },
         { name: "Attendance", link: "attendance", icon: FaUsers },
         { name: "Clients", link: "clients", icon: FaUserInjured, margin: true },

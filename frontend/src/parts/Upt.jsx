@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import divine from '../assests/dgi-clinics.png';
+import { useState } from 'react';
+import divine from '../assets/dgi-clinics.png';
 import axios from 'axios';
+import {useNavigate } from 'react-router-dom';
 
 function Upt() {
   // PATIENT PARTICULARS
@@ -29,7 +30,7 @@ function Upt() {
   // State for patient particulars and lab data
   const [particulars, setParticulars] = useState(initialPatientParticulars);
   const [forms, setForms] = useState(initialLabData);
-
+  const navigate = useNavigate()
   // Handle changes in patient particulars
   const handlePartChange = (e) => {
     setParticulars({ ...particulars, [e.target.name]: e.target.value.toUpperCase() });
@@ -54,7 +55,7 @@ function Upt() {
       .post('http://localhost:8081/pathology', clientData)
       .then((res) => {
         if (res.status === 200){
-          Navigate('/dashboard')
+          navigate('/dashboard')
           setForms(initialLabData);
           setParticulars(initialPatientParticulars);
         }

@@ -22,6 +22,18 @@ const db = mysql.createConnection({
 });
 
 
+// const sqlCreateTable = `CREATE TABLE IF NOT EXISTS users (
+//     id INT AUTO_INCREMENT PRIMARY KEY,
+//     name VARCHAR(100),
+//     email VARCHAR(100)
+//   )`;
+
+//   db.query(sqlCreateTable, (error, results) => {
+//     if (error) throw error;
+//     console.log('Users table created');
+//   });
+
+
 // Check database Connection
 db.connect((err)=>{
     if (err){
@@ -31,6 +43,12 @@ db.connect((err)=>{
         console.log('Success Connecting to database')
     }
 });
+
+// db.end((error) => {
+//     if (error) throw error;
+//     console.log('Connection closed');
+//   });
+
 
 
 // SignUp User to the Database

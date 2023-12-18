@@ -12,7 +12,9 @@
     flex-direction: column;
 }
 
-
+.h-screen{
+  height: 100vh;
+}
 
   ::-webkit-scrollbar{
     width: 10px;  
@@ -21,7 +23,7 @@
 
   ::-webkit-scrollbar-thumb{
     border-radius: 10px;
-    background-color:  #0c6b79;
+    background-color:  #0c6b;
   }
 
   ::-webkit-scrollbar-thumb{

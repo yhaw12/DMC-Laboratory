@@ -8,7 +8,10 @@ import Home from './parts/Home';
 import ActivitiesList from './parts/pages/ActivitiesList';
 import Attendance from './parts/pages/Attendance';
 import CustomerDataTable from './components/datatable/CustomerDataTable';
-import LabTest from './parts/pages/labtest/LabTest';
+import LabTest from '../../frontend/src/parts/pages/labtest/LabTest';
+import Upt from './parts/Upt';
+import Profile from './parts/Profile';
+// import LabTest from './parts/pages/labtest/LabTest';
 
  
 const router = createBrowserRouter(
@@ -16,10 +19,12 @@ const router = createBrowserRouter(
     <Route>
       <Route path="/*" element={<Home />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="user" element={<Profile />} />
         <Route path="activities" element={<ActivitiesList />} />
         <Route path="attendance" element={<Attendance />} />
         <Route path="clients" element={ <CustomerDataTable/>} />
         <Route path="labtest" element={ <LabTest/>} />
+        <Route path="upt" element={ <Upt/>} />
         {/* <Route path="clients" element={<Clients />} />
         <Route path="profile" element={<Profile />} />
         <Route path="upt" element={<Upt />} /> */}

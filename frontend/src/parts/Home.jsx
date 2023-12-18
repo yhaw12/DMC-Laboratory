@@ -11,13 +11,10 @@ function Home() {
       <Sidebar/>
       <main className={`w-full flex flex-col justify-between top-0 dark:bg-black ${Open ? 'flex-grow h-8 ' : 'flex-shrink'}`}>
         <Navbar/>
-        <div>
+        <div >
           <Outlet/>
         </div>
       </main>
-      
-      
-
     </section>
   )
 }

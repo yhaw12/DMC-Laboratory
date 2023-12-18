@@ -53,7 +53,7 @@ function Dashboard() {
 
 
   return (
-    <div className='w-full h-screen flex items-center justify-between px-10 overflow-scroll'>
+    <div className='w-full h-screen flex items-center justify-between px-10 '>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
@@ -89,7 +89,6 @@ function Dashboard() {
               <DataTable
                 columns={columns} 
                 data={records.slice(0,5)}
-                selectableRows
                 // paginationServerSide
               >
               </DataTable>
