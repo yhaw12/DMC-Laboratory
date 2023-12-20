@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import divine from '../assets/dgi-clinics.png';
+// import divine from '../assets/dgi-clinics.png';
 import axios from 'axios';
 import {useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 function Upt() {
   // PATIENT PARTICULARS
@@ -9,7 +10,7 @@ function Upt() {
     NAME: '',
     AGE: '',
     SEX: '',
-    DATE: '',
+    DATE: moment().format('YYYY-MM-DD'), 
   };
 
   // Initial state for lab data
@@ -45,7 +46,6 @@ function Upt() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Submit the data to the server using axios
-
     const clientData = {
       forms: forms,
       particulars: particulars
@@ -65,17 +65,15 @@ function Upt() {
       });
   };
 
-  
-
   return (
-    <section className='w-full h-screen p-8 bg-slate-800'>
-      <div className='px-10 w-full h-full bg-slate-500 border border-gray-300'>
-        <div className='flex items-center justify-between outline mb-8'>
-          <img className='w-20' src={divine} alt='Logo' />
-          <div className='mr-64 font-bold'>
-            <h1 className='text-xl'>MEDICAL LABORATORY REPORT (CHEMICAL PATHOLOGY)</h1>
-          </div>
-        </div>
+    <section className='w-full h-screen p-2 '>
+      <div className='px-5 py-4 w-full h-full  text-gray-900'>
+        {/* <div className='flex items-center justify-between outline mb-8'> */}
+          {/* <img className='w-20' src={divine} alt='Logo' /> */}
+          {/* <div className='mr-64 font-bold'> */}
+            {/* <h1 className='text-xl'>MEDICAL LABORATORY REPORT (CHEMICAL PATHOLOGY)</h1> */}
+          {/* </div> */}
+        {/* </div> */}
 
         {/* Patient Particulars Form */}
         <form className='grid grid-cols-2 mb-8 px-10 place-items-center' onSubmit={handleSubmit}>
@@ -98,15 +96,15 @@ function Upt() {
           <table className='w-full'>
             <thead>
               <tr>
-                <th className='box-border border-2 p-2'>TEST</th>
-                <th className='box-border border-2 p-2'>RESULTS</th>
+                <th className='box-border border-2 border-black p-2'>TEST</th>
+                <th className='box-border border-2 border-black p-2'>RESULTS</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(forms).map((key, index) => (
                 <tr key={`form-${index}`}>
-                  <td className='box-border border-2 p-2 px-6 grid place-items-center'>{key.toLocaleUpperCase()}</td>
-                  <td className='box-border border-2 p-2'>
+                  <td className='box-border border-2 border-gray-300 p-1 px-6 grid place-items-center'>{key.toLocaleUpperCase()}</td>
+                  <td className='box-border border-2 border-gray-300 p-1'>
                     <input
                       className='outline-none bg-transparent ml-6'
                       name={key}
@@ -119,7 +117,7 @@ function Upt() {
             </tbody>
           </table>
 
-          <button type='submit'>Submit</button>
+          <div  className='w-full flex items-end justify-end'><button  className='w-16 px-2 py-1 bg-green-800 mt-2 rounded-sm' type='submit'>Save</button></div>
         </form>
       </div>
     </section>
