@@ -33,6 +33,31 @@ const sqlCreateTable = `CREATE TABLE IF NOT EXISTS users (
     image VARCHAR(255)
   )`;
 
+  
+  const sqlPathTable = `CREATE TABLE IF NOT EXISTS pathology (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age VARCHAR(100),
+    sex VARCHAR(100),
+    date DATE,
+    specificGravity FLOAT(20),
+    blood VARCHAR(100),
+    protein VARCHAR(100),
+    glucose VARCHAR(100),
+    bilirubin VARCHAR(100),
+    urobilinogen VARCHAR(100),
+    nitrites VARCHAR(100),
+    leukocytes VARCHAR(100),
+    epithelialCells VARCHAR(100),
+    pusCells VARCHAR(100),
+    rBCs VARCHAR(100)
+  )`;
+
+  db.query(sqlPathTable, (error, results)=>{
+    if (error) throw error;
+    console.log('Patholgy table created');
+  })
+
   db.query(sqlCreateTable, (error, results) => {
     if (error) throw error;
     console.log('Users table created');
