@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiSettings4Line } from "react-icons/ri";
@@ -13,7 +13,7 @@ import { FaSnowflake } from "react-icons/fa";
 function Sidebar() {
     const menus = [
         { name: "dashboard", link: "dashboard", icon: MdOutlineDashboard },
-        { name: "user", link: "/user", icon: AiOutlineUser },
+        { name: "user", link: "users/:id", icon: AiOutlineUser },
         { name: "Activities", link: "activities", icon: FaUsers },
         { name: "Attendance", link: "attendance", icon: FaUsers },
         { name: "Clients", link: "clients", icon: FaUserInjured, margin: true },
@@ -36,8 +36,26 @@ function Sidebar() {
       ];
 
       const [open, setOpen] = useState(true);
+      const [largeScreen, setLargeScreen] = useState(window.innerWidth > 780);
       const [openSubMenu, setOpenSubMenu] = useState("");
 
+      useEffect(() => {
+        const handleResize = () => {
+            setLargeScreen(window.innerWidth > 780);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+       }, []);
+
+       useEffect(() => {
+        if (!largeScreen) {
+            setOpen(false);
+        } else {
+            setOpen(true);
+        }
+    }, [largeScreen]);
 
       const handleSubMenuClick = (menuName) => {
         if (menuName === openSubMenu) {
@@ -48,17 +66,17 @@ function Sidebar() {
       };
       
   return (
-      <section className=" flex gap-4 transition-all duration-300">
-         <div className={`bg-primary h-full ${open ? "w-66" : "w-16"} text-gray-100 px-4 duration-300`}>
+      <section className="h-screen flex gap-4 transition-all duration-300">
+         <div className={`bg-primary ${open ? "w-66" : "w-16"} text-gray-100 px-4 duration-300 `}>
           <div className="py-3 flex justify-end">
             <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)}/>
           </div>
 
-          <div className="w-full h-auto flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
+          <div className="w-full flex items-center justify-center "><img className="cursor-pointer w-36" src={dgiLogo} /></div>
 
-          <div className="mt-4 mb-auto flex flex-col gap-4 relative overflow-auto h-screen outline">
+          <div className="mt-4 mb-auto flex flex-col gap-4 relative">
           {menus.map((menu, i) => (
-            <div key={i} className="group flex flex-col items-start text-sm font-medium px-2 py-1 hover:bg-gray-800 rounded-md relative">
+            <div key={i} className="group flex flex-col items-start text-sm font-medium p-2 hover:bg-gray-800 rounded-md relative">
           <Link to={menu.link}>
             <div onClick={() => handleSubMenuClick(menu.name)} className="group flex items-center w-full h-auto scroll-behavior-smooth mb-auto cursor-pointer">
                 <div className="mr-4">{React.createElement(menu.icon, { size: "20" })}</div>
