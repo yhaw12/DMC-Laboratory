@@ -14,7 +14,7 @@ function Profile() {
     name: '',
     phone: '',
     email: '',
-    file: '',
+    image: '',
     address: ''
   })
 
@@ -24,9 +24,9 @@ function Profile() {
     try {
       const res = await axios.get(`http://localhost:8081/users/${id}`) 
       if (res.data.Status === 'Success'){
-        setValues(res.data)
-        setUserInfo(res.data)
-        console.log(res.data);
+        setValues(res.data.Data)
+        setUserInfo(res.data.Data)
+        console.log(res.data.Data);
       }
     } catch (error) {
       console.error(error);
@@ -56,10 +56,11 @@ function Profile() {
     console.log('formData', formData); // new line
 
     try {
-       const response = await axios.post(`http://localhost:8081/users/${id}`,formData,{ headers: { 'Content-Type': 'multipart/form-data' } });
+       const response = await axios.post('http://localhost:8081/users', formData, { headers: { 'Content-Type': 'multipart/form-data' }} );
        if (response.data.Status === 'Success'){
         console.log('Successing')
-        navigate('/user/:id')
+              setOpen(false)
+              navigate('/user')
        }
        
     } catch (error) {
@@ -88,8 +89,8 @@ function Profile() {
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Email:</label><h2 className="w-4/5">{values.email}</h2></div>
           </div>
           <div className="w-1/3 h-52">
-          <img src={userInfo && userInfo.file ? userInfo.file : profileIcon}/>
-          <img src={values.file} />
+          <img src={userInfo && userInfo.image ? userInfo.image : profileIcon}/>
+          <img src={values.image} />
           </div>
       </main>
 
