@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react"
 import { FaPlus, FaTimes } from "react-icons/fa"
 import profileIcon from '../assets/profile-icon.png';
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import axios from "axios";
 
 function Profile() {
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [open , setOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -53,14 +53,12 @@ function Profile() {
     formData.append('phone', values.phone);
     formData.append('email', values.email);
     formData.append('address', values.address);
-    console.log('formData', formData); // new line
 
     try {
-       const response = await axios.post('http://localhost:8081/users', formData, { headers: { 'Content-Type': 'multipart/form-data' }} );
+       const response = await axios.post('http://localhost:8081/users', formData );
        if (response.data.Status === 'Success'){
         console.log('Successing')
               setOpen(false)
-              navigate('/user')
        }
        
     } catch (error) {
