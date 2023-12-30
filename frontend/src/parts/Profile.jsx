@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
-import { FaPlus, FaTimes } from "react-icons/fa"
+import {  FaTimes, FaUpload } from "react-icons/fa"
 import profileIcon from '../assets/profile-icon.png';
-import {  useParams } from "react-router-dom";
 import axios from "axios";
 
 function Profile() {
@@ -18,11 +17,9 @@ function Profile() {
     address: ''
   })
 
-
-  const  {id} = useParams();
   const getUserInfo = useCallback(async() => {
     try {
-      const res = await axios.get(`http://localhost:8081/users/${id}`) 
+      const res = await axios.get(`http://localhost:8081/users/${sessionStorage.getItem("user")}`) 
       if (res.data.Status === 'Success'){
         setValues(res.data.Data)
         setUserInfo(res.data.Data)
@@ -31,7 +28,7 @@ function Profile() {
     } catch (error) {
       console.error(error);
     }
-  }, [id]);
+  }, []);
 
   useEffect(()=>{
     getUserInfo();
@@ -55,10 +52,11 @@ function Profile() {
     formData.append('address', values.address);
 
     try {
-       const response = await axios.post('http://localhost:8081/users', formData );
-       if (response.data.Status === 'Success'){
+       const res = await axios.put(`http://localhost:8081/users/${sessionStorage.getItem("user")}`, formData );
+       if (res.data.Status === 'Success'){
         console.log('Successing')
-              setOpen(false)
+        setOpen(false);
+        getUserInfo();
        }
        
     } catch (error) {
@@ -78,17 +76,16 @@ function Profile() {
     <div className="flex items-center justify-center min-h-screen">
     <div className="w-3/5 h-96 px-10 m-auto  text-black shadow-lg bg-slate-200 relative">
       <div className="bottom"><h1 className="text-center text-2xl">User Profile</h1></div>
-      <main className={`h-72 inline-flex items-center justify-between relative ${open? 'opacity-20': ''}`}>
-        <div className="absolute top-6 right-5 cursor-pointer "><FaPlus onClick={handlePopUp}/></div>
+      <main className={`h-72 inline-flex items-center justify-between relative  ${open? 'opacity-20': ''}`}>
+        <div className="absolute top-6 right-5 cursor-pointer "><FaUpload onClick={handlePopUp}/></div>
           <div className="w-3/4 ">
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Name:</label> <h2 className="w-4/5">{values.name}</h2></div>
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Adress:</label><h2 className="w-4/5">{values.address}</h2></div>
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Phone:</label> <h2 className="w-4/5">{values.phone}</h2></div>
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Email:</label><h2 className="w-4/5">{values.email}</h2></div>
           </div>
-          <div className="w-1/3 h-52">
-          <img src={userInfo && userInfo.image ? userInfo.image : profileIcon}/>
-          <img src={values.image} />
+          <div className="w-1/3 h-36">
+          <img src={selectedFile ? URL.createObjectURL(selectedFile) : (userInfo && userInfo.image ? userInfo.image : profileIcon)}/>
           </div>
       </main>
 
@@ -99,7 +96,7 @@ function Profile() {
             <div className="w-full flex items-center justify-between mb-8"><label>Name:</label> <input className="bg-transparent border px-2 py-1 w-80 active:border-transparent " type="text" placeholder="Enter your Name" onChange={(e)=>setValues({...values, name: e.target.value})}/></div>
             <div className="w-full flex items-center justify-between mb-8"><label>Phone:</label> <input className="bg-transparent border px-2 py-1 w-80"type="text" placeholder="Enter your number" onChange={(e)=>setValues({...values, phone: e.target.value})}/></div>
             <div className="w-full flex items-center justify-between mb-8"><label>Email:</label> <input className="bg-transparent border px-2 py-1 w-80"type="text" placeholder="Enter your email" onChange={(e)=>setValues({...values, email: e.target.value})}/></div>
-            <div className="w-full flex items-center justify-between mb-8"><label>Lab Logo:</label> <input className="w-80" type="file" name="" id="profile" onChange={handleFileUpload} /></div>
+            <div className="w-full flex items-center justify-between mb-8"><label>Lab Logo:</label> <input className="w-80" type="file" name="" id="profile" onChange={handleFileUpload} accept="image/*"/></div>
             <div className="w-full flex items-center justify-between mb-8"><label>Address:</label> <textarea className=" w-80 h-16 bg-transparent border px-2 py-1"placeholder='Type your address' onChange={(e)=>setValues({...values, address: e.target.value})}></textarea></div>
           </div>
 
