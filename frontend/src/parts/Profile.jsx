@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react"
-import {  FaTimes, FaUpload } from "react-icons/fa"
+import {  FaTimes, FaUpload } from "react-icons/fa";
 import profileIcon from '../assets/profile-icon.png';
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Profile() {
 
   // const navigate = useNavigate();
   const [open , setOpen] = useState(false);
-  const [userInfo, setUserInfo] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [values, setValues] = useState({
     name: '',
@@ -17,31 +17,16 @@ function Profile() {
     address: ''
   })
 
-  const getUserInfo = useCallback(async() => {
-    try {
-      const res = await axios.get(`http://localhost:8081/users/${sessionStorage.getItem("user")}`) 
-      if (res.data.Status === 'Success'){
-        setValues(res.data.Data)
-        setUserInfo(res.data.Data)
-        console.log(res.data.Data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
-  useEffect(()=>{
-    getUserInfo();
-  },[getUserInfo])
-
+  const { id } = useParams();
+  const navigate = useNavigate()
   // popup should open when the loads
   useEffect(() => {
-    if (userInfo === null) {
+    if (values === null) {
       setOpen(true);
     }
-  }, [userInfo]);
+  }, [values]);
 
-  
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -52,17 +37,32 @@ function Profile() {
     formData.append('address', values.address);
 
     try {
-       const res = await axios.put(`http://localhost:8081/users/${sessionStorage.getItem("user")}`, formData );
+      const res = await axios.post(`http://localhost:8081/users/${id}`, formData);
        if (res.data.Status === 'Success'){
         console.log('Successing')
         setOpen(false);
-        getUserInfo();
+        navigate(`/users/${res.data.id}`);
        }
        
     } catch (error) {
       console.error(error);
     }
 }
+ 
+const getUserInfo = useCallback(async () => {
+  try {
+    const res = await axios.get(`http://localhost:8081/users/${id}`);
+    setValues(res.data); 
+    console.log(res.data)
+    } catch (error) {
+    console.error(error);
+  }
+}, [id]);
+
+useEffect(()=>{
+  getUserInfo();
+},[getUserInfo])
+
 
   const handleFileUpload = (e) => {
     setSelectedFile(e.target.files[0]);
@@ -85,7 +85,7 @@ function Profile() {
             <div className="w-full flex items-center py-2 mb-4 gap-10"><label className="w-1/5">Email:</label><h2 className="w-4/5">{values.email}</h2></div>
           </div>
           <div className="w-1/3 h-36">
-          <img src={selectedFile ? URL.createObjectURL(selectedFile) : (userInfo && userInfo.image ? userInfo.image : profileIcon)}/>
+          <img src={selectedFile ? URL.createObjectURL(selectedFile) : (values && values.image ? values.image : profileIcon)}/>
           </div>
       </main>
 
