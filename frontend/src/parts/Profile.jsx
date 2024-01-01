@@ -51,13 +51,13 @@ function Profile() {
  
 const getUserInfo = useCallback(async () => {
   try {
-    const res = await axios.get(`http://localhost:8081/users/${id}`);
-    setValues(res.data); 
+    const res = await axios.get('http://localhost:8081/login/');
+    setValues(prevValues => ({ ...prevValues, name: res.data.name, email: res.data.email })); 
     console.log(res.data)
     } catch (error) {
     console.error(error);
   }
-}, [id]);
+}, []);
 
 useEffect(()=>{
   getUserInfo();
