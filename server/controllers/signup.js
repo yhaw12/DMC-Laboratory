@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const db = require('../models/databaseModels')
+// const cookie = require('cookie-parser');
 
 // SignUp User to the Database
 router.post('/signup', async (req, res)=>{
@@ -9,7 +11,7 @@ router.post('/signup', async (req, res)=>{
     const checkData = 'SELECT * FROM account WHERE email = ?';
     const {email} = req.body;
 
-    const now = Date().now
+    // const now = Date().now
     
     db.query(checkData, [email], async(err, results)=>{
         if (results.length > 0){
@@ -17,7 +19,7 @@ router.post('/signup', async (req, res)=>{
         }else{
 
             // signup users
-            const sql = 'INSERT INTO account (`name`,`email`, `password`) VALUES(?,?,?) ';
+            const sql = 'INSERT INTO account (`name`,`email`, `password`) VALUES(?,?,?)';
             const {name, email, password} = req.body;
 
 

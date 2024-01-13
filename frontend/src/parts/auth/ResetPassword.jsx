@@ -32,7 +32,7 @@ function ResetPassword() {
 
         axios.defaults.withCredentials = true;
         
-        axios.put(`http://localhost:8081/reset${id}`, values)
+        axios.put(`http://localhost:8081/reset/${id}`, values)
         .then(res => {
             if (res.data.Status === 'Success'){
                 console.log('there is an success', res.data.token);

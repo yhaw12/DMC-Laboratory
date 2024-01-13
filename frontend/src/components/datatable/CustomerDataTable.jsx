@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import DataTable from 'react-data-table-component'
 import { FaTrash } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 
@@ -98,15 +98,13 @@ function CustomerDataTable() {
 
   return (
     <div className="w-full h-screen p-20 flex flex-col ">
-
-
       <div className="mb-4 flex items-center justify-center"><h2 className=" text-4xl text-black font-extrabold">Clients</h2></div>
        <div className=" h-6 mb-8 "><input className="w-96 px-4 border border-black py-3 rounded-md" type="text" placeholder="Search ........" onChange={handleFilter}/></div>
 
         <div className="w-96 flex  items-center gap-2 justify-between m-auto">
             <div className="w-40 flex items-center justify-center bg-[#0c6b79] rounded-sm py-2"><h3 className="text-black">Pathology</h3></div>
-            <div className="w-40 flex items-center justify-center bg-[#0C6B79] rounded-sm py-2"><h3 className="text-black">Client Register</h3></div>
-            <div className="w-40 flex items-center justify-center bg-[#0C6B79] rounded-sm py-2"><h3 className="text-black">Client Register</h3></div>
+            <div className="w-40 flex items-center justify-center bg-[#0C6B79] rounded-sm py-2"><h3 className="text-black">Radiology</h3></div>
+            <div className="w-40 flex items-center justify-center bg-[#0C6B79] rounded-sm. py-2"><Link to='/client-register'><h3 className="text-black">Client Register</h3></Link></div>
         </div>
        
         {popUp &&

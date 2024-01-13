@@ -67,7 +67,7 @@ function Sidebar() {
       
   return (
       <section className="h-screen flex gap-4 transition-all duration-300">
-         <div className={`bg-primary ${open ? "w-66" : "w-16"} text-gray-100 px-4 duration-300 `}>
+         <div className={`bg-[#01AC9C] ${open ? "w-66" : "w-16"} text-gray-100 px-4 duration-300 `}>
           <div className="py-3 flex justify-end">
             <HiMenuAlt3 size={26} className="cursor-pointer" onClick={() => setOpen(!open)}/>
           </div>
@@ -76,7 +76,7 @@ function Sidebar() {
 
           <div className="mt-4 mb-auto flex flex-col gap-4 relative">
           {menus.map((menu, i) => (
-            <div key={i} className="group flex flex-col items-start text-sm font-medium p-2 hover:bg-gray-800 rounded-md relative">
+            <div key={i} className="group flex flex-col items-start text-sm font-medium p-2 hover:bg-[#F8981D] rounded-md relative">
           <Link to={menu.link}>
             <div onClick={() => handleSubMenuClick(menu.name)} className="group flex items-center w-full h-auto scroll-behavior-smooth mb-auto cursor-pointer">
                 <div className="mr-4">{React.createElement(menu.icon, { size: "20" })}</div>

@@ -41,7 +41,7 @@ function Navbar() {
   }
 
   useEffect(()=>{
-    axios.get('http://localhost:8081/login')
+    axios.get('http://localhost:8081/login', { withCredentials: true })
     .then(res =>{
       if (res.data.Status === 'Success'){
         setProfileName(res.data.name)

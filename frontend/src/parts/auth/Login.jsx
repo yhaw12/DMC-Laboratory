@@ -34,16 +34,22 @@ function Login() {
         SetError('')
 
         axios.defaults.withCredentials = true;
+        
         axios.post('http://localhost:8081/login', values)
         .then(res => {
             if (res.data.Status === 'Success'){
+                console.log('there is an success', res.data.token);
+                localStorage.setItem('token', res.data.token);
+                sessionStorage.setItem('user', JSON.stringify(res.data.user));
                 navigate('/')
             }else{
+                console.log('there is an error', res.data.Error)
                 return SetError(res.data.Error)
+        
             }
         })
         .catch(err => console.log(err));
-}
+    }
 
   return (
     <section className="w-full h-screen grid place-items-center ">
@@ -59,7 +65,7 @@ function Login() {
                     Enter your details to register.
                 </Typography>
                 {error && (
-                    <Typography color="red" className="mt-2 text-center font-normal">
+                    <Typography className="mt-2 text-center font-normal text-red-700">
                     {error}
                     </Typography>
                 )}
@@ -78,14 +84,19 @@ function Login() {
                   
                 </div>
                     </div>
-                    <Button type="submit" className="mt-16" color="blue" fullWidth>
+                    <Button type="submit" color="blue" fullWidth className='mt-16 bg-blue-900'>
                     Login
                     </Button>
-                    <Typography color="gray" type="submit" className="mt-4 text-center font-normal">
-                    Dont have an account?{" "}
-                    <Link to="/signup" className="font-bold text-red-900">
-                        Sign Up
-                    </Link>
+                    <Typography color="gray" type="" className="mt-4 text-center font-normal">
+                    <div className="w-72 flex items-center "> <Link to='/reset'>Reset password</Link></div>
+                    <div className="w-56 flex items-center justify-between">
+                        Dont have an account?{" "}
+                        <Link to="/signup" className="font-bold text-red-700">
+                            Sign Up
+                        </Link>
+                    </div>
+                    
+                    
                     </Typography>
                 </form>
             </Card>

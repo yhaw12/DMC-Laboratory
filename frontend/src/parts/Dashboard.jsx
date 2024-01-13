@@ -22,15 +22,15 @@ function Dashboard() {
 
     const columns =[
       {
-        name: 'ID',
+        name: 'PATIENT NAME',
         selector: row=>row.id
       },
       {
-        name: 'NAME',
+        name: 'DATE OF BIRTH',
         selector: row=>row.name
       },
       {
-        name: 'EMAIL',
+        name: 'CONTACT PHONE',
         selector: row=>row.email
       },
       {
@@ -40,6 +40,10 @@ function Dashboard() {
      ]
 
      const [records, setRecords] = useState([])
+     const [pathologyData, setPathologyData] = useState({clients : [], total : 0})
+
+
+
     
     //  PULL CLIENTS DATA
       useEffect(() => {
@@ -48,13 +52,22 @@ function Dashboard() {
             setRecords(res.data);
         })
         .catch(err => console.log(err))
-    }, []);
-    
 
+        const fetchPathologyData = async ()=>{
+          try{
+            const res = await axios.get('http://localhost:8081/pathology');
+            setPathologyData(res.data);
+          } catch (err) {
+            console.error(err);
+        }
+        }
+        fetchPathologyData()
+    }, []);
+  
 
   return (
-    <div className='w-full h-screen flex items-center justify-between px-10 '>
-        <Box sx={{ flexGrow: 1 }}>
+    <div className='w-full h-auto flex items-center justify-between px-4  my-8'>
+        <Box sx={{ flexGrow: 1 }} className=' outline p-4'>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Grid container spacing={2}>
@@ -67,7 +80,7 @@ function Dashboard() {
                 <Grid item xs={6}>
                   <Item className='h-32 flex flex-col items-center justify-center'>
                     <div  className='text-2xl font-extrabold'>Pathology</div>
-                    <div className='text-xl'>455</div>
+                    <div className='text-xl'>{pathologyData.total}</div>
                   </Item>
                 </Grid>
                 <Grid item xs={6}>
@@ -84,7 +97,7 @@ function Dashboard() {
               </Item>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ marginTop: '20px' }}>
             <Item>
               <DataTable
                 columns={columns} 

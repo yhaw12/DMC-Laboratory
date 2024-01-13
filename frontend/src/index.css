@@ -4,7 +4,12 @@
 
 
 :root{
-    color: white;
+    color: rgb(12, 12, 12);
+    background-color: #eaeaeb;
+}
+
+input:active, input:focus{
+  outline: none;
 }
 
 .mt-4 {

@@ -5,14 +5,15 @@ const db = require('../models/databaseModels')
 const session = require('express-session')
 
 
-router.put('/users/:id', upload.single('image'), (req,res) =>{
-  const sql = `UPDATE staff SET name = ?, email = ?, phone = ?, address = ?, image = ? WHERE id = ?`;
+router.post('/users/:id', upload.single('image'), (req,res) =>{
+  const sql = `INSERT INTO staff (name, email, phone, address, image) VALUES (?, ?, ?, ?, ?)`;
 
     const values = req.body
     const {name, phone, email, address} = values;
     const image = req.file ? req.file.path : null;
+   
 
-    db.query(sql, [name, email,phone,address, image], (err, results)=>{
+    db.query(sql, [ name, email,phone,address, image], (err, results)=>{
         if(err){
             console.log(err)
             return res.json({Status : 'Error in Submitting data', Error: err})
@@ -26,35 +27,23 @@ router.put('/users/:id', upload.single('image'), (req,res) =>{
 
 // Get data from the database and pass to the frontend for the profile
 router.get('/users/:id', (req, res) => {
+  const sql = 'SELECT * FROM staff WHERE id = ?';
   const id = req.params.id;
 
-  // First, try looking up the user in the "account" table
-  const sql = `SELECT * FROM account WHERE id = ?`;
-  db.query(sql, [id], (err, results) => {
+  db.query(sql, id, (err, results) => {
     if (err) {
-      return res.json({ Status: 'Error getting data' });
+      console.log(err);
+      return res.status(500).json({Status: 'Error in fetching data', Error: err});
     }
-    
     if (results.length > 0) {
-      return res.json({ Status: 'Success', Data: results[0] });
+      console.log(results[0])
+      return res.json(results[0]); 
+      
     } else {
-      // If no data exists in the "account" table, try looking up the user in the "staff" table instead
-      const sql = `SELECT * FROM staff WHERE id = ?`;
-      db.query(sql, [id], (err, results) => {
-        if (err) {
-          return res.json({ Status: 'Error getting data' });
-        }
-        
-        if (results.length > 0) {
-          return res.json({ Status: 'Success', Data: results[0] });
-        } else {
-          return res.json({ Status: 'Error', Message: 'No such user found.' });
-        }
-      });
+      return res.status(404).json({Status: 'User not found'});
     }
   });
-});
-  
+});  
 
 
 

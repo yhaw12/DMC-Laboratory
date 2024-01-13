@@ -27,6 +27,7 @@ import {
     const [error, SetError] = useState('');
 
     const navigate = useNavigate();
+
     function handleSubmit(e) {
         e.preventDefault();
       if (!values.name.trim() || !values.password.trim() || !values.email.trim()) {
@@ -35,11 +36,11 @@ import {
       }
       SetError('');
   
-      
       axios.post('http://localhost:8081/signup', values)
         .then(res => {
             if (res.data.Status === 'Success'){
-                navigate('/login')
+                navigate('/');
+
             }else{
                 return SetError(res.data.Error)
             }
@@ -61,7 +62,7 @@ import {
               Enter your details to register.
             </Typography>
             {error && (
-                <Typography color="red" className="mt-2 text-center font-normal">
+                <Typography className="mt-2 text-center font-normal text-red-700">
                   {error}
                 </Typography>
               )}
@@ -79,7 +80,7 @@ import {
                   
                 </div>
               </div>
-              <Button className="mt-6" color="blue" type="submit" fullWidth>
+              <Button className="mt-6 bg-blue-900" color="blue" type="submit" fullWidth >
                 Sign Up
               </Button>
               

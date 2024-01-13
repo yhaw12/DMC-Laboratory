@@ -66,8 +66,8 @@ function Upt() {
   };
 
   return (
-    <section className='w-full h-screen p-2 '>
-      <div className='px-5 py-4 w-full h-full  text-gray-900'>
+    <section className='w-full h-screen grid place-items-center '>
+      <div className='px-2 w-4/5  py-10 outline text-gray-900'>
         {/* <div className='flex items-center justify-between outline mb-8'> */}
           {/* <img className='w-20' src={divine} alt='Logo' /> */}
           {/* <div className='mr-64 font-bold'> */}
@@ -92,8 +92,8 @@ function Upt() {
         </form>
 
         {/* Lab Data Form */}
-        <form onSubmit={handleSubmit} className='w-full h-auto px-20'>
-          <table className='w-full'>
+        <form onSubmit={handleSubmit} className='w-full h-auto  px-20 mt-32'>
+          <table className='max-w-96'>
             <thead>
               <tr>
                 <th className='box-border border-2 border-black p-2'>TEST</th>
@@ -117,7 +117,7 @@ function Upt() {
             </tbody>
           </table>
 
-          <div  className='w-full flex items-end justify-end'><button  className='w-16 px-2 py-1 bg-green-800 mt-2 rounded-sm' type='submit'>Save</button></div>
+          <div  className='w-full flex items-end justify-end'><button  className='w-16 px-2 py-1 bg-green-800 mt-2 rounded-sm' type='submit' onClick={handleSubmit}>Save</button></div>
         </form>
       </div>
     </section>

@@ -16,15 +16,22 @@ db.connect((err)=>{
     }
     else{
         console.log('Success Connecting to database')
-    }
+    } 
 });
 
 // db.end((error) => {
 //     if (error) throw error;
 //     console.log('Connection closed');
 //   });
+const sqlMainTable = `CREATE TABLE IF NOT EXISTS account (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100),
+  password VARCHAR(100),
+  last_login TIMESTAMP  
+)`;
 
-const sqlCreateTable = `CREATE TABLE IF NOT EXISTS users (
+const sqlCreateTable = `CREATE TABLE IF NOT EXISTS staff (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
@@ -32,12 +39,11 @@ const sqlCreateTable = `CREATE TABLE IF NOT EXISTS users (
     address VARCHAR(250),
     image VARCHAR(255)
   )`;
-
   
   const sqlPathTable = `CREATE TABLE IF NOT EXISTS pathology (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
-    age VARCHAR(100),
+    age VARCHAR(100), 
     sex VARCHAR(100),
     date DATE,
     specificGravity FLOAT(20),
@@ -53,14 +59,20 @@ const sqlCreateTable = `CREATE TABLE IF NOT EXISTS users (
     rBCs VARCHAR(100)
   )`;
 
+  db.query(sqlMainTable, (error, results)=>{
+    if (error) throw error;
+    console.log('Auth table created');
+  })
+  
+  db.query(sqlCreateTable, (error, results) => {
+    if (error) throw error;
+    console.log('Users table created');
+  });
   db.query(sqlPathTable, (error, results)=>{
     if (error) throw error;
     console.log('Patholgy table created');
   })
 
-  db.query(sqlCreateTable, (error, results) => {
-    if (error) throw error;
-    console.log('Users table created');
-  });
+
 
 module.exports = db;
