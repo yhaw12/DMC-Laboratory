@@ -36,7 +36,92 @@ function PersonalInfoForm() {
         </label>
         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="firstName" type="text" placeholder="First Name" name="firstName" onChange={handleChange} />
       </div>
-      {/* Repeat for other input fields... */}
+    
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="gender">
+    Gender
+  </label>
+  <select
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="gender"
+    name="gender"
+    onChange={handleChange}
+  >
+    <option value="">Select Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+    <option value="other">Other</option>
+  </select>
+</div>
+
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+    Email Address
+  </label>
+  <input
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="email"
+    type="email"
+    placeholder="Enter your email"
+    name="email"
+    onChange={handleChange}
+  />
+</div>
+
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
+    Phone Number
+  </label>
+  <input
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="phone"
+    type="tel"
+    placeholder="Enter your phone number"
+    name="phone"
+    onChange={handleChange}
+  />
+</div>
+
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="dob">
+    Date of Birth
+  </label>
+  <input
+    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    id="dob"
+    type="date"
+    name="dob"
+    onChange={handleChange}
+  />
+</div>
+
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="agreeContact">
+    Agree to Contact
+  </label>
+  <input
+    className="mr-2 leading-tight"
+    id="agreeContact"
+    type="checkbox"
+    name="agreeContact"
+    onChange={handleChange}
+  />
+  <span className="text-sm">I agree to be contacted.</span>
+</div>
+
+<div className="mb-4">
+  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="agreeMarketing">
+    Agree to Marketing
+  </label>
+  <input
+    className="mr-2 leading-tight"
+    id="agreeMarketing"
+    type="checkbox"
+    name="agreeMarketing"
+    onChange={handleChange}
+  />
+  <span className="text-sm">I agree to receive marketing emails.</span>
+</div>
       <div className="flex items-center justify-between">
         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
           Submit
