@@ -41,7 +41,9 @@ function LabTest() {
    const [pending, setPending] = useState(true);
    const [records, setRecords] = useState([])
    const [popUp, setPopUp] = useState(false);
-   const [filterItems, setFilterItems] = useState([])
+   const [filterItems, setFilterItems] = useState([]);
+   const [selectedDepartment, setSelectedDepartment] = useState('');
+   const [price, setPrice] = useState('');
 
    const actionsMemo = useMemo(() => <Export onExport={() => downloadCSV(records)} />, [records]);
 
@@ -49,27 +51,39 @@ function LabTest() {
     // SUBMIT TO THE DATABASE
     const handleSubmit = (event) => {
       event.preventDefault();
-      axios.post('https://jsonplaceholder.typicode.com/users', text)
+      if (!text || !selectedDepartment || !price) {
+        Swal.fire('Error!', 'All fields are required.', 'error');
+        return;
+      }
+      const data = {
+        name: text,
+        department: selectedDepartment,
+        price: price
+      };
+      axios.post('http://localhost:8081/labcategory', data)
         .then(() => {
-          Swal.fire(
-            'Added!',
-            'Your new item has been added.',
-            'success'
-          )
+          Swal.fire('Added!', 'Your new item has been added.', 'success');
+          UserData(); 
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err);
+          Swal.fire('Error!', 'Failed to add the item.', 'error');
+        });
     }
 
-//    PULL CLIENTS DA
-        function UserData(){
-            axios.get('https://jsonplaceholder.typicode.com/users')
-            .then(res => {
-              setRecords(res.data);
-              setFilterItems(res.data)
-              setPending(false)
-            })
-            .catch(err=>console.log(err))
-        }
+    // PULL CLIENTS DATA
+    function UserData(){
+      axios.get('http://localhost:8081/labcategory') 
+      .then(res => {
+        setRecords(res.data);
+        setFilterItems(res.data);
+        setPending(false);
+      })
+      .catch(err => {
+        console.log(err);
+        Swal.fire('Error!', 'Failed to fetch the data.', 'error');
+      });
+    }
 
         useEffect(()=>{
           UserData();
@@ -115,12 +129,9 @@ function LabTest() {
             pagination
           >
             </DataTable>
-
           <div className="w-32 mb-3 flex items-center outline"><MdFileDownload color="black" className="absolute left-94 z-50"/>{actionsMemo}</div>
-      
       </div>
 
-      
       {popUp &&
            <div className=" text-black fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-auto w-2/4 px-10 py-5 bg-[#ddd] text-center my-0 mx-auto z-30 transition-all duration-300">
             
@@ -129,24 +140,21 @@ function LabTest() {
             <div>
               <div className="flex items-center justify-between mb-4"><label htmlFor="">Category Name</label> <input className="w-64 p-2 border-white-200 border bg-transparent" type="text" required placeholder="FBC" onChange={(e)=>setText(e.target.value)}/></div>
               <div className="flex items-center justify-between mb-4"><label htmlFor="">Department</label> 
-                <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2">
+              <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2" onChange={(e)=>setSelectedDepartment(e.target.value)}>
                   <option value="">FBC</option>
                   <option value="">HB</option>
                   <option value="">Urine C/S</option>
                   <option value="">RDT</option>
-                </select>
+              </select>
               </div>
-              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label> <input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price" /></div>
+              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label><input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price" onChange={(e)=>setPrice(e.target.value)}/></div>
             </div>
-
             <div className="w-32 flex items-center justify-between m-auto">
               <button className="bg-[#0C6B79] px-1 py-2 rounded-sm" onClick={handleSubmit}>Submit</button>
               <button className="border-2 border-black px-1 py-2" onClick={cancelPopup}>Cancel</button>
             </div>
-           
          </div>
         }
-
     </div>
   )
 }
