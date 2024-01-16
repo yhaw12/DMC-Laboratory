@@ -67,6 +67,38 @@ router.get('/pathology', (req, res)=>{
       res.status(500).json({ error: 'An error occurred while fetching data.' });
   }
 })
+
+//POST TO THE LAB CATEGORY
+router.post('/labcategory', (req, res) => {
+  if (!req.body.name || !req.body.department || !req.body.price) {
+    res.status(400).send('All fields are required.');
+    return;
+  }
+  const sql = 'INSERT INTO labcategory (name, department, price) VALUES (?, ?, ?)';
+  const values = [req.body.name, req.body.department, req.body.price];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      res.status(200).send('Record inserted successfully');
+    }
+  });
+});
+
+//GET TO THE LAB CATEGORY
+router.get('/labcategory', (req, res)=>{
+  const sql = 'SELECT * FROM labcategory';
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send(err);
+    } else {
+      res.status(200).json(result);
+    }
+  });
+})
   
  
 module.exports = router;
