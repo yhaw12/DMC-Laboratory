@@ -37,33 +37,34 @@ function LabTest() {
     }
    ]
 
-   const [text, setText] = useState('')
+   const [values, setValues] = useState({
+      categoryName: '',
+      selectedDepartment: '',
+      price: ''
+   })
+
    const [pending, setPending] = useState(true);
    const [records, setRecords] = useState([])
    const [popUp, setPopUp] = useState(false);
    const [filterItems, setFilterItems] = useState([]);
-   const [selectedDepartment, setSelectedDepartment] = useState('');
-   const [price, setPrice] = useState('');
-
+   
    const actionsMemo = useMemo(() => <Export onExport={() => downloadCSV(records)} />, [records]);
 
 
     // SUBMIT TO THE DATABASE
     const handleSubmit = (event) => {
       event.preventDefault();
-      if (!text || !selectedDepartment || !price) {
+      if (!values.categoryName || !values.selectedDepartment || !values.price) {
         Swal.fire('Error!', 'All fields are required.', 'error');
         return;
       }
-      const data = {
-        name: text,
-        department: selectedDepartment,
-        price: price
-      };
-      axios.post('http://localhost:8081/labcategory', data)
-        .then(() => {
-          Swal.fire('Added!', 'Your new item has been added.', 'success');
-          UserData(); 
+      
+      axios.post('http://localhost:8081/labcategory', values)
+        .then(res=>{
+          if (res.data.status === 'Record inserted successfully'){
+              Swal.fire('Added!', 'Your new item has been added.', 'success');
+              UserData(); 
+          }
         })
         .catch(err => {
           console.log(err);
@@ -97,8 +98,7 @@ function LabTest() {
       setRecords(newData)
     }
 
-    // const {id} = useParams();
-
+  
     // DELETE CLIENTS DATA
     const handleDelete = (id) => {
       deleteConfirmation(id, records, setRecords, setFilterItems);
@@ -138,16 +138,16 @@ function LabTest() {
             <div className=" flex items-center justify-between mb-8 pb-4 shadow-md ">Add Lab Test Category <FaTimes onClick={cancelPopup} className="cursor-pointer"/></div>
 
             <div>
-              <div className="flex items-center justify-between mb-4"><label htmlFor="">Category Name</label> <input className="w-64 p-2 border-white-200 border bg-transparent" type="text" required placeholder="FBC" onChange={(e)=>setText(e.target.value)}/></div>
+              <div className="flex items-center justify-between mb-4"><label htmlFor="">Category Name</label> <input className="w-64 p-2 border-white-200 border bg-transparent" type="text" required placeholder="FBC"   onChange={(e)=>setValues({...values, categoryName: e.target.value})}/></div>
               <div className="flex items-center justify-between mb-4"><label htmlFor="">Department</label> 
-              <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2" onChange={(e)=>setSelectedDepartment(e.target.value)}>
+              <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2" onChange={(e)=>setValues({...values, selectedDepartment: e.target.value})}>
                   <option value="">FBC</option>
                   <option value="">HB</option>
                   <option value="">Urine C/S</option>
                   <option value="">RDT</option>
               </select>
               </div>
-              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label><input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price" onChange={(e)=>setPrice(e.target.value)}/></div>
+              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label><input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price"  onChange={(e)=>setValues({...values, price: e.target.value})}/></div>
             </div>
             <div className="w-32 flex items-center justify-between m-auto">
               <button className="bg-[#0C6B79] px-1 py-2 rounded-sm" onClick={handleSubmit}>Submit</button>
