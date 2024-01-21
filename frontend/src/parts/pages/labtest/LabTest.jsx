@@ -7,7 +7,7 @@ import Export from '../../../components/Export';
 import { downloadCSV } from '../../../components/utils';
 import { MdFileDownload } from "react-icons/md";
 import Swal from 'sweetalert2'
-import { deleteConfirmation } from "../../../components/utils/ButtonActions";
+import { deleteConfirmationLabCat } from "../../../components/utils/ButtonActions";
 
 function LabTest() {
 
@@ -17,16 +17,16 @@ function LabTest() {
       selector: row=>row.id
     },
     {
-      name: 'Category List',
+      name: 'Item',
       selector: row=>row.name
     },
     {
       name: 'Department',
-      selector: row=>row.email
+      selector: row=>row.department
     },
     {
       name: 'Test Price',
-      selector: row=>row.address.city
+      selector: row => row.price ,
     },
     {
       name : 'ACTIONS',
@@ -38,13 +38,13 @@ function LabTest() {
    ]
 
    const [values, setValues] = useState({
-      categoryName: '',
-      selectedDepartment: '',
+      name: '',
+      department: 'option',
       price: ''
    })
 
    const [pending, setPending] = useState(true);
-   const [records, setRecords] = useState([])
+   const [records, setRecords] = useState([]);
    const [popUp, setPopUp] = useState(false);
    const [filterItems, setFilterItems] = useState([]);
    
@@ -52,9 +52,9 @@ function LabTest() {
 
 
     // SUBMIT TO THE DATABASE
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      if (!values.categoryName || !values.selectedDepartment || !values.price) {
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      if (!values.name.trim() || !values.price.trim()) {
         Swal.fire('Error!', 'All fields are required.', 'error');
         return;
       }
@@ -85,6 +85,7 @@ function LabTest() {
         Swal.fire('Error!', 'Failed to fetch the data.', 'error');
       });
     }
+    
 
         useEffect(()=>{
           UserData();
@@ -101,7 +102,8 @@ function LabTest() {
   
     // DELETE CLIENTS DATA
     const handleDelete = (id) => {
-      deleteConfirmation(id, records, setRecords, setFilterItems);
+      console.log(`handleDelete was called with id: ${id}`); 
+      deleteConfirmationLabCat(id, records, setRecords, setFilterItems);
     }
 
     // DELET CONFIRMATION
@@ -138,16 +140,16 @@ function LabTest() {
             <div className=" flex items-center justify-between mb-8 pb-4 shadow-md ">Add Lab Test Category <FaTimes onClick={cancelPopup} className="cursor-pointer"/></div>
 
             <div>
-              <div className="flex items-center justify-between mb-4"><label htmlFor="">Category Name</label> <input className="w-64 p-2 border-white-200 border bg-transparent" type="text" required placeholder="FBC"   onChange={(e)=>setValues({...values, categoryName: e.target.value})}/></div>
-              <div className="flex items-center justify-between mb-4"><label htmlFor="">Department</label> 
-              <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2" onChange={(e)=>setValues({...values, selectedDepartment: e.target.value})}>
-                  <option value="">FBC</option>
-                  <option value="">HB</option>
-                  <option value="">Urine C/S</option>
-                  <option value="">RDT</option>
+              <div className="flex items-center justify-between mb-4"><label htmlFor="">Category Name</label> <input className="w-64 p-2 border-white-200 border bg-transparent" type="text" required placeholder="FBC"   onChange={(e)=>setValues({...values, name: e.target.value.toLocaleUpperCase()})}/></div>
+              <div className="flex items-center justify-between mb-4"><label htmlFor="">department</label> 
+              <select name="" id="" placeholder="Select Department Name" className="w-64 border-white-200 border bg-transparent transition-all p-2" onChange={(e)=>setValues({...values, department: e.target.value})}>
+                  <option value="FBC">FBC</option>
+                  <option value="HB">HB</option>
+                  <option value="Urine C/S">Urine C/S</option>
+                  <option value="RDY">RDT</option>
               </select>
               </div>
-              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label><input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price"  onChange={(e)=>setValues({...values, price: e.target.value})}/></div>
+              <div className="flex items-center justify-between mb-8 "><label htmlFor="number">Price</label><input className="w-64 p-2 border-white-200 border bg-transparent" required type="text" placeholder="Price"  onChange={(e)=>setValues({...values, price: `₵${e.target.value}`})}/></div>
             </div>
             <div className="w-32 flex items-center justify-between m-auto">
               <button className="bg-[#0C6B79] px-1 py-2 rounded-sm" onClick={handleSubmit}>Submit</button>
